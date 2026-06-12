@@ -1,0 +1,237 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mission365 | One Goal Every Day</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="top-bar">
+        <button class="brand-button" type="button" data-page-link="home" aria-label="Go to home">
+          <span class="logo-mark">M365</span>
+          <span class="brand-copy">
+            <span class="brand-title">Mission365</span>
+            <span class="brand-subtitle">One Goal Every Day</span>
+          </span>
+        </button>
+        <button class="icon-button" id="settingsButton" type="button" aria-label="Open settings" title="Settings">
+          <span aria-hidden="true">&#9881;</span>
+        </button>
+      </header>
+
+      <main>
+        <section class="page page-home is-active" id="homePage" aria-labelledby="homeTitle">
+          <div class="home-panel">
+            <div class="home-logo">
+              <span class="home-logo-mark">M365</span>
+            </div>
+            <h1 id="homeTitle">Mission365</h1>
+            <p class="tagline">One Goal Every Day</p>
+            <p class="home-date" id="homeDate">Today</p>
+            <p class="subtitle">Track. Complete. Repeat.</p>
+            <button class="primary-button" id="createMissionButton" type="button">Create Mission</button>
+          </div>
+        </section>
+
+        <section class="page" id="dashboardPage" aria-labelledby="dashboardTitle">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow" id="welcomeText">Today</p>
+              <h2 id="dashboardTitle">Dashboard</h2>
+            </div>
+            <button class="secondary-button sidebar-toggle" id="sidebarToggle" type="button" aria-expanded="true" aria-controls="dashboardSidebar">
+              Hide Sidebar
+            </button>
+          </div>
+
+          <div class="dashboard-layout" id="dashboardLayout">
+            <aside class="dashboard-sidebar" id="dashboardSidebar" aria-label="Dashboard summary">
+              <article class="mission-journey-card">
+                <div>
+                  <span class="stat-label">Mission365</span>
+                  <strong id="missionDay">&#128293; Day 0</strong>
+                </div>
+                <div class="mission-journey-details">
+                  <span id="journeyMission">Mission: Not set</span>
+                  <span id="journeyProgress">Progress Today: 0%</span>
+                </div>
+                <div class="progress-track" aria-hidden="true">
+                  <span id="journeyProgressBar"></span>
+                </div>
+              </article>
+
+              <div class="stats-grid" aria-label="Mission stats">
+                <article class="stat-card">
+                  <span class="stat-label">Current Streak</span>
+                  <strong id="currentStreak">0</strong>
+                  <span class="stat-note">days</span>
+                </article>
+                <article class="stat-card">
+                  <span class="stat-label">Longest Streak</span>
+                  <strong id="longestStreak">0</strong>
+                  <span class="stat-note">days</span>
+                </article>
+                <article class="stat-card">
+                  <span class="stat-label">Today's Study Hours</span>
+                  <strong id="todayHours">0</strong>
+                  <span class="stat-note">actual</span>
+                </article>
+                <article class="stat-card mission-card">
+                  <span class="stat-label">Mission Name</span>
+                  <strong id="missionName">Not set</strong>
+                  <span class="stat-note">focus target</span>
+                </article>
+                <article class="stat-card progress-stat-card">
+                  <span class="stat-label">Today's Progress</span>
+                  <strong id="todayProgress">0%</strong>
+                  <div class="progress-track" aria-hidden="true">
+                    <span id="todayProgressBar"></span>
+                  </div>
+                </article>
+              </div>
+            </aside>
+
+            <div class="dashboard-main">
+              <section class="tool-panel" aria-labelledby="addGoalTitle">
+                <div class="section-title-row">
+                  <h3 id="addGoalTitle">Add Goal</h3>
+                </div>
+                <form id="goalForm" class="goal-form">
+                  <label>
+                    <span>Subject</span>
+                    <input id="subjectInput" list="subjectOptions" type="text" placeholder="Math" required maxlength="60" />
+                    <datalist id="subjectOptions">
+                      <option value="Math"></option>
+                      <option value="Reasoning"></option>
+                      <option value="English"></option>
+                      <option value="Science"></option>
+                      <option value="Physics"></option>
+                      <option value="Chemistry"></option>
+                      <option value="Biology"></option>
+                      <option value="History"></option>
+                      <option value="Geography"></option>
+                      <option value="Polity"></option>
+                      <option value="Current Affairs"></option>
+                      <option value="Other"></option>
+                    </datalist>
+                  </label>
+                  <label>
+                    <span>Goal Detail <small>Optional</small></span>
+                    <input id="goalDetailInput" type="text" placeholder="Chapter padhna / Mock test lagana" maxlength="80" />
+                  </label>
+                  <label>
+                    <span>Planned Study Hours</span>
+                    <div class="time-inputs">
+                      <input id="plannedHoursInput" type="number" min="0" max="24" step="1" placeholder="Hours" />
+                      <input id="plannedMinutesInput" type="number" min="0" max="59" step="1" placeholder="Min" />
+                    </div>
+                  </label>
+                  <button class="primary-button" type="submit">Add Goal</button>
+                </form>
+              </section>
+
+              <section class="list-section" aria-labelledby="todayGoalsTitle">
+                <div class="section-title-row">
+                  <h3 id="todayGoalsTitle">Today's Goals</h3>
+                  <span class="count-pill" id="todayGoalCount">0</span>
+                </div>
+                <div class="goal-list" id="todayGoals"></div>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="historyPage" aria-labelledby="historyTitle">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">Study record</p>
+              <h2 id="historyTitle">History</h2>
+            </div>
+          </div>
+
+          <section class="list-section" aria-labelledby="historyExplorerTitle">
+            <div class="section-title-row">
+              <h3 id="historyExplorerTitle">Day-wise History Explorer</h3>
+              <span class="count-pill" id="dayHistoryCount">0</span>
+            </div>
+            <div class="history-list day-history-list" id="dayHistoryList"></div>
+            <div class="day-record-details" id="dayRecordDetails"></div>
+          </section>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Primary">
+        <button class="nav-item is-active" type="button" data-page-link="home">
+          <span aria-hidden="true">&#8962;</span>
+          Home
+        </button>
+        <button class="nav-item" type="button" data-page-link="dashboard">
+          <span aria-hidden="true">&#9635;</span>
+          Dashboard
+        </button>
+        <button class="nav-item" type="button" data-page-link="history">
+          <span aria-hidden="true">&#9687;</span>
+          History
+        </button>
+      </nav>
+    </div>
+
+    <dialog class="modal" id="missionDialog">
+      <form method="dialog" id="missionForm" class="modal-card">
+        <div class="modal-heading">
+          <h3>Create Mission</h3>
+          <button class="icon-button small" type="button" data-close-dialog="missionDialog" aria-label="Close">&times;</button>
+        </div>
+        <label>
+          <span>Name</span>
+          <input id="nameInput" type="text" placeholder="Vikash" required maxlength="60" />
+        </label>
+        <label>
+          <span>Mission Name</span>
+          <input id="missionInput" type="text" placeholder="SSC CGL 2027" required maxlength="80" />
+        </label>
+        <button class="primary-button" value="default" type="submit">Save Mission</button>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="completeDialog">
+      <form method="dialog" id="completeForm" class="modal-card">
+        <div class="modal-heading">
+          <h3>Goal Completed?</h3>
+          <button class="icon-button small" type="button" data-close-dialog="completeDialog" aria-label="Close">&times;</button>
+        </div>
+        <div class="completion-summary">
+          <strong id="completeGoalName">Goal</strong>
+          <span id="completePlannedHours">Planned Hours: 0</span>
+        </div>
+        <label>
+          <span>Enter Actual Hours Studied</span>
+          <div class="time-inputs">
+            <input id="actualHoursInput" type="number" min="0" max="24" step="1" placeholder="Hours" />
+            <input id="actualMinutesInput" type="number" min="0" max="59" step="1" placeholder="Min" />
+          </div>
+        </label>
+        <button class="success-button" value="default" type="submit">Save Actual Hours</button>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="settingsDialog">
+      <form method="dialog" class="modal-card">
+        <div class="modal-heading">
+          <h3>Settings</h3>
+          <button class="icon-button small" value="cancel" type="submit" aria-label="Close">&times;</button>
+        </div>
+        <button class="secondary-button" id="exportButton" type="button">Export Data</button>
+        <label class="import-control">
+          <span>Import Data</span>
+          <input id="importInput" type="file" accept="application/json,.json" />
+        </label>
+        <p class="settings-note" id="settingsMessage" aria-live="polite"></p>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
