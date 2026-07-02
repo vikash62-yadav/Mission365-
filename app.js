@@ -1,4 +1,4 @@
-﻿const STORAGE_KEY = "mission365.v1";
+const STORAGE_KEY = "mission365.v1";
 
 const defaultState = {
   profile: null,
@@ -94,6 +94,10 @@ function normalizeState() {
     goal.name = goal.name || goal.subject || "Study Goal";
     if (goal.status === "Pending" && goal.date < today) {
       goal.status = "Incomplete";
+      carryIncompleteGoalForward(goal, today);
+    }
+    if (goal.status === "Incomplete" && goal.date < today) {
+      carryIncompleteGoalForward(goal, today);
     }
   });
 
@@ -279,6 +283,7 @@ function renderHomeDate() {
 
 function renderGoalCard(goal) {
   const isPending = goal.status === "Pending";
+  const isIncomplete = goal.status === "Incomplete";
   return `
     <article class="goal-card">
       <div class="goal-main">
@@ -292,11 +297,15 @@ function renderGoalCard(goal) {
       ${
         isPending
           ? `<div class="card-actions">
-              <button class="success-button" type="button" data-complete-goal="${goal.id}">Completed</button>
+              <button class="success-button" type="button" data-complete-goal="${goal.id}">Complete</button>
               <button class="danger-button" type="button" data-incomplete-goal="${goal.id}">Incomplete</button>
               <button class="delete-button" type="button" data-delete-goal="${goal.id}">Delete</button>
             </div>`
-          : ""
+          : isIncomplete
+            ? `<div class="card-actions single-action">
+                <button class="success-button" type="button" data-complete-goal="${goal.id}">Complete</button>
+              </div>`
+            : ""
       }
     </article>
   `;
@@ -465,6 +474,26 @@ function markIncomplete(goalId) {
   goal.actualHours = null;
   saveState();
   render();
+}
+
+function carryIncompleteGoalForward(goal, today) {
+  const carryKey = goal.carryKey || goal.id;
+  const alreadyCarriedToday = state.goals.some((item) => item.carryKey === carryKey && item.date === today);
+  if (alreadyCarriedToday) return;
+
+  state.goals.unshift({
+    id: crypto.randomUUID(),
+    subject: goal.subject,
+    name: goal.name,
+    plannedHours: goal.plannedHours,
+    actualHours: null,
+    status: "Pending",
+    date: today,
+    createdAt: new Date().toISOString(),
+    completedAt: null,
+    carryKey,
+    carriedFrom: goal.id,
+  });
 }
 
 function deleteGoal(goalId) {
@@ -659,3 +688,7 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
+
+
+
