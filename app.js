@@ -478,6 +478,9 @@ function markIncomplete(goalId) {
 
 function carryIncompleteGoalForward(goal, today) {
   const carryKey = goal.carryKey || goal.id;
+  const chainIsCompleted = state.goals.some((item) => (item.carryKey || item.id) === carryKey && item.status === "Completed");
+  if (chainIsCompleted) return;
+
   const alreadyCarriedToday = state.goals.some((item) => item.carryKey === carryKey && item.date === today);
   if (alreadyCarriedToday) return;
 
@@ -688,6 +691,7 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
 
 
 
